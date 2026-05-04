@@ -33,12 +33,12 @@ title: Введение
 
 | Раздел | Содержимое |
 |---|---|
-| [Обзор проекта](/docs/vision) | Vision, стейкхолдеры, Use Cases |
-| [Архитектура](/docs/context) | Контекстная диаграмма, компоненты, потоки данных |
-| [Доменная модель](/docs/erd) | ERD: концептуальная / логическая / физическая |
-| [API](/docs/overview) | Описание API + интерактивный Redoc |
-| [Wireframes](/docs/screens) | Макеты экранов, роуты, маппинг на endpoints |
-| [Алгоритмы](/docs/readiness-index) | Readiness Index, DMN-правила |
-| [Интеграции](/docs/onesignal) | OneSignal, Kafka, n8n |
-| [Платформизация](/docs/strategy) | B2B2C-стратегия, монетизация |
-| [Эксплуатация](/docs/non-functional) | NFR, мониторинг |
+| [Обзор проекта](./overview/vision.md) | Vision, стейкхолдеры, Use Cases |
+| [Архитектура](./architecture/context.md) | Контекстная диаграмма, компоненты, потоки данных |
+| [Доменная модель](./domain/erd.md) | ERD: концептуальная / логическая / физическая |
+| [API](./api/overview.md) | Описание API + интерактивный Redoc |
+| [Wireframes](./wireframes/screens.md) | Макеты экранов, роуты, маппинг на endpoints |
+| [Алгоритмы](./algorithms/readiness-index.md) | Readiness Index, DMN-правила |
+| [Интеграции](./integrations/onesignal.md) | OneSignal, Kafka, n8n |
+| [Платформизация](./platformization/strategy.md) | B2B2C-стратегия, монетизация |
+| [Эксплуатация](./operations/non-functional.md) | NFR, мониторинг |
