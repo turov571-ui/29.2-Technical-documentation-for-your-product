@@ -36,7 +36,7 @@
 
 
 ## Запуск в браузере
-https://turov571-ui.github.io/29.2-Technical-documentation-for-your-product/
+https://turov571-ui.github.io/29.2-Technical-documentation-for-your-product/docs/intro
 
 
 ## Запуск локально
