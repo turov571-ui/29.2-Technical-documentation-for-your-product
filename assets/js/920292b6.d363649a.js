@@ -1,0 +1,1 @@
+"use strict";(globalThis.webpackChunkfitadapt_docs=globalThis.webpackChunkfitadapt_docs||[]).push([[161],{1908(a){a.exports=JSON.parse('{"metadata":{"permalink":"/29.2-Technical-documentation-for-your-product/blog","page":1,"postsPerPage":10,"totalPages":1,"totalCount":0,"blogDescription":"Blog","blogTitle":"Blog"}}')}}]);

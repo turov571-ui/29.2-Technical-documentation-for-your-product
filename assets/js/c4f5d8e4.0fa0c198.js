@@ -1,0 +1,1 @@
+"use strict";(globalThis.webpackChunkfitadapt_docs=globalThis.webpackChunkfitadapt_docs||[]).push([[634],{192(t,o,a){a.r(o),a.d(o,{default:()=>r});a(6540);var c=a(6347),d=a(4848);function r(){return(0,d.jsx)(c.rd,{to:"/29.2-Technical-documentation-for-your-product/docs/intro"})}}}]);
