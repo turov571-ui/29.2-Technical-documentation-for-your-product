@@ -1,10 +1,16 @@
-/** @type {import('@docusaurus/plugin-content-docs').SidebarsConfig} */
+/**
+ * Creating a sidebar enables you to:
+ - create an ordered group of docs
+ - render a sidebar for each doc of that group
+ - provide next/previous navigation
+ */
+
 const sidebars = {
   tutorialSidebar: [
     'intro',
     {
       type: 'category',
-      label: '01 · Обзор проекта',
+      label: 'Обзор проекта',
       items: [
         'overview/vision',
         'overview/stakeholders',
@@ -13,7 +19,7 @@ const sidebars = {
     },
     {
       type: 'category',
-      label: '02 · Архитектура',
+      label: 'Архитектура',
       items: [
         'architecture/context',
         'architecture/components',
@@ -22,7 +28,7 @@ const sidebars = {
     },
     {
       type: 'category',
-      label: '03 · Доменная модель',
+      label: 'Доменная модель',
       items: [
         'domain/erd',
         'domain/entities',
@@ -30,7 +36,7 @@ const sidebars = {
     },
     {
       type: 'category',
-      label: '04 · API',
+      label: 'API',
       items: [
         'api/overview',
         'api/health-api',
@@ -39,7 +45,7 @@ const sidebars = {
     },
     {
       type: 'category',
-      label: '05 · Wireframes',
+      label: 'Wireframes',
       items: [
         'wireframes/screens',
         'wireframes/routes',
@@ -48,7 +54,7 @@ const sidebars = {
     },
     {
       type: 'category',
-      label: '06 · Алгоритмы',
+      label: 'Алгоритмы',
       items: [
         'algorithms/readiness-index',
         'algorithms/dmn-rules',
@@ -56,7 +62,7 @@ const sidebars = {
     },
     {
       type: 'category',
-      label: '07 · Интеграции',
+      label: 'Интеграции',
       items: [
         'integrations/onesignal',
         'integrations/kafka-topics',
@@ -65,7 +71,7 @@ const sidebars = {
     },
     {
       type: 'category',
-      label: '08 · Платформизация',
+      label: 'Платформизация',
       items: [
         'platformization/strategy',
         'platformization/monetization',
@@ -73,21 +79,10 @@ const sidebars = {
     },
     {
       type: 'category',
-      label: '09 · Эксплуатация',
+      label: 'Эксплуатация',
       items: [
         'operations/non-functional',
         'operations/monitoring',
-      ],
-    },
-    {
-      type: 'category',
-      label: 'Style Guide',
-      collapsed: true,
-      items: [
-        'style-guide/overview',
-        'style-guide/structure',
-        'style-guide/diagrams',
-        'style-guide/api',
       ],
     },
   ],

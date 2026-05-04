@@ -1,5 +1,5 @@
 // @ts-check
-const {themes} = require('prism-react-renderer');
+const { themes } = require('prism-react-renderer');
 const lightTheme = themes.github;
 const darkTheme = themes.dracula;
 
@@ -69,24 +69,21 @@ const config = {
         {
           title: 'Документация',
           items: [
-            {label: 'Введение', to: '/docs/intro'},
-            {label: 'Архитектура', to: '/docs/architecture/context'},
+            { label: 'Введение', to: '/docs/intro' },
+            { label: 'Обзор проекта', to: '/docs/overview/vision' },
+            { label: 'Архитектура', to: '/docs/architecture/context' },
           ],
         },
         {
           title: 'Артефакты',
           items: [
-            {label: 'ERD', to: '/docs/domain/erd'},
-            {label: 'Wireframes', to: '/docs/wireframes/screens'},
-            {label: 'Алгоритмы', to: '/docs/algorithms/readiness-index'},
-          ],
-        },
-        {
-          title: 'Style Guide',
-          items: [
-            {label: 'Обзор', to: '/docs/style-guide/overview'},
-            {label: 'Структура', to: '/docs/style-guide/structure'},
-            {label: 'Диаграммы', to: '/docs/style-guide/diagrams'},
+            { label: 'Доменная модель', to: '/docs/domain/erd' },
+            { label: 'API', to: '/docs/api/overview' },
+            { label: 'Wireframes', to: '/docs/wireframes/screens' },
+            { label: 'Алгоритмы', to: '/docs/algorithms/readiness-index' },
+            { label: 'Интеграции', to: '/docs/integrations/onesignal' },
+            { label: 'Платформизация', to: '/docs/platformization/strategy' },
+            { label: 'Эксплуатация', to: '/docs/operations/non-functional' },
           ],
         },
       ],
