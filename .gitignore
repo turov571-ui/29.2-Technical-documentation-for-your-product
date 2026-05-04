@@ -1,0 +1,14 @@
+# Docusaurus
+my-site/node_modules/
+my-site/.docusaurus/
+my-site/build/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+EOF

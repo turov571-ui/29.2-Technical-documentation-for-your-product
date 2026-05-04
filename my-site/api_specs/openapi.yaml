@@ -1,0 +1,594 @@
+openapi: "3.0.3"
+
+info:
+  title: FitAdapt API
+  description: |
+    API для мобильного приложения FitAdapt.
+    Покрывает экраны: ввод данных о здоровье, просмотр рекомендации,
+    список клиентов тренера, карточка клиента.
+  version: "1.0.0"
+
+servers:
+  - url: https://api.fitadapt.ru/v1
+    description: Production
+  - url: https://api-stage.fitadapt.ru/v1
+    description: Staging
+
+security:
+  - BearerAuth: []
+
+tags:
+  - name: Health
+    description: Данные о здоровье клиента
+  - name: Recommendation
+    description: Рекомендации по тренировкам
+  - name: Trainer
+    description: Методы для тренера
+
+paths:
+
+  /health-profile:
+    get:
+      summary: Получить последний профиль здоровья пользователя
+      description: |
+        Возвращает последние сохранённые метрики здоровья.
+        Используется для предзаполнения формы на экране /health.
+      operationId: getHealthProfile
+      tags:
+        - Health
+      responses:
+        "200":
+          description: Профиль здоровья успешно получен
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthProfile"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          description: Профиль не найден (первый вход пользователя)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          $ref: "#/components/responses/InternalError"
+
+  /health-data:
+    post:
+      summary: Сохранить данные о здоровье
+      description: |
+        Сохраняет метрики здоровья пользователя.
+        Вызывается при нажатии кнопки «Отправить» на экране /health.
+        Использован POST с X-Idempotency-Key для защиты от дублей.
+      operationId: saveHealthData
+      tags:
+        - Health
+      parameters:
+        - $ref: "#/components/parameters/IdempotencyKey"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/HealthDataRequest"
+      responses:
+        "201":
+          description: Данные успешно сохранены
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthDataResponse"
+        "200":
+          description: Данные уже были сохранены ранее (idempotency)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthDataResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "500":
+          $ref: "#/components/responses/InternalError"
+
+  /recommendation/{clientId}:
+    get:
+      summary: Получить рекомендацию по тренировке
+      description: |
+        Возвращает рекомендацию по тренировке для клиента на основе
+        последних данных о здоровье. Внутри вызывает n8n воркфлоу:
+        calcReadinessIndex → applyDMNRules.
+      operationId: getRecommendation
+      tags:
+        - Recommendation
+      parameters:
+        - name: clientId
+          in: path
+          required: true
+          description: Идентификатор клиента
+          schema:
+            $ref: "#/components/schemas/ClientId"
+      responses:
+        "200":
+          description: Рекомендация успешно получена
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RecommendationResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          description: Клиент или данные о здоровье не найдены
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          $ref: "#/components/responses/InternalError"
+
+  /trainer/clients:
+    get:
+      summary: Получить список клиентов тренера
+      description: |
+        Возвращает постраничный список клиентов тренера.
+        Доступно только пользователям с ролью TRAINER.
+      operationId: getTrainerClients
+      tags:
+        - Trainer
+      parameters:
+        - name: page
+          in: query
+          required: false
+          description: Номер страницы (с 0)
+          schema:
+            type: integer
+            minimum: 0
+            default: 0
+        - name: size
+          in: query
+          required: false
+          description: Количество элементов на странице
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+        - name: sort
+          in: query
+          required: false
+          description: Поле и направление сортировки
+          schema:
+            type: string
+            example: "readinessIndex,desc"
+      responses:
+        "200":
+          description: Список клиентов успешно получен
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ClientListResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "500":
+          $ref: "#/components/responses/InternalError"
+
+  /trainer/clients/{clientId}:
+    get:
+      summary: Получить карточку клиента
+      description: |
+        Возвращает детальную карточку клиента: профиль, индекс готовности,
+        последнюю рекомендацию и историю метрик здоровья.
+        Доступно только пользователям с ролью TRAINER.
+      operationId: getTrainerClientById
+      tags:
+        - Trainer
+      parameters:
+        - name: clientId
+          in: path
+          required: true
+          description: Идентификатор клиента
+          schema:
+            $ref: "#/components/schemas/ClientId"
+        - name: historyDays
+          in: query
+          required: false
+          description: Глубина истории метрик в днях (по умолчанию 30)
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 365
+            default: 30
+      responses:
+        "200":
+          description: Карточка клиента успешно получена
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ClientDetailResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          description: Клиент не найден
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          $ref: "#/components/responses/InternalError"
+
+components:
+
+  parameters:
+    IdempotencyKey:
+      name: X-Idempotency-Key
+      in: header
+      required: false
+      description: |
+        Ключ идемпотентности для защиты от дублирующих запросов.
+        Фронтенд генерирует UUID при нажатии кнопки и повторяет при retry.
+      schema:
+        type: string
+        format: uuid
+
+  responses:
+    Unauthorized:
+      description: Токен авторизации отсутствует или недействителен
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+    Forbidden:
+      description: Недостаточно прав (требуется роль TRAINER)
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+    BadRequest:
+      description: Некорректный запрос
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+    InternalError:
+      description: Внутренняя ошибка сервера
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+
+  schemas:
+
+    TrainingType:
+      description: Тип тренировки, рекомендованный DMN-движком.
+      type: string
+      enum:
+        - STRENGTH
+        - CARDIO
+        - YOGA
+        - REST
+      example: CARDIO
+
+    TrainingIntensity:
+      description: Интенсивность тренировки
+      type: string
+      enum:
+        - HIGH
+        - MEDIUM
+        - LOW
+        - NONE
+      example: MEDIUM
+
+    UserRole:
+      description: Роль пользователя в системе
+      type: string
+      enum:
+        - CLIENT
+        - TRAINER
+        - ADMIN
+        - OWNER
+      example: TRAINER
+
+    ClientId:
+      description: Идентификатор клиента
+      type: string
+      format: uuid
+      example: "550e8400-e29b-41d4-a716-446655440000"
+
+    HealthDataId:
+      description: Идентификатор записи о здоровье
+      type: string
+      format: uuid
+
+    RecommendationSummary:
+      description: Краткая рекомендация — вложенный объект
+      type: object
+      required:
+        - trainingType
+        - durationMinutes
+        - intensity
+      properties:
+        trainingType:
+          $ref: "#/components/schemas/TrainingType"
+        intensity:
+          $ref: "#/components/schemas/TrainingIntensity"
+        durationMinutes:
+          type: integer
+          description: Рекомендуемая длительность тренировки в минутах
+          minimum: 0
+          maximum: 180
+          example: 45
+        rationale:
+          type: string
+          description: Текстовое обоснование рекомендации
+          example: "Показатели в норме. Кардио-нагрузка оптимальна."
+
+    HealthHistoryRecord:
+      description: Одна запись в истории метрик клиента
+      type: object
+      required:
+        - date
+        - readinessIndex
+        - trainingType
+      properties:
+        date:
+          type: string
+          format: date
+          example: "2025-01-15"
+        readinessIndex:
+          type: number
+          format: float
+          minimum: 0
+          maximum: 10
+          example: 7.4
+        trainingType:
+          $ref: "#/components/schemas/TrainingType"
+
+    HealthProfile:
+      description: Последние сохранённые метрики здоровья пользователя
+      type: object
+      required:
+        - clientId
+        - recordedAt
+      properties:
+        clientId:
+          $ref: "#/components/schemas/ClientId"
+        weight:
+          type: number
+          format: float
+          example: 75.5
+        energyLevel:
+          type: integer
+          minimum: 1
+          maximum: 10
+          example: 7
+        sleepQuality:
+          type: integer
+          minimum: 1
+          maximum: 10
+          example: 6
+        mood:
+          type: integer
+          minimum: 1
+          maximum: 10
+          example: 8
+        recordedAt:
+          type: string
+          format: date-time
+
+    HealthDataRequest:
+      description: Тело запроса при сохранении метрик здоровья
+      type: object
+      required:
+        - weight
+        - energyLevel
+        - sleepQuality
+        - mood
+      properties:
+        weight:
+          type: number
+          format: float
+          minimum: 20
+          maximum: 300
+          example: 75.5
+        energyLevel:
+          type: integer
+          minimum: 1
+          maximum: 10
+          example: 7
+        sleepQuality:
+          type: integer
+          minimum: 1
+          maximum: 10
+          example: 6
+        mood:
+          type: integer
+          minimum: 1
+          maximum: 10
+          example: 8
+
+    HealthDataResponse:
+      description: Результат сохранения метрик здоровья
+      type: object
+      required:
+        - id
+        - clientId
+        - recordedAt
+      properties:
+        id:
+          $ref: "#/components/schemas/HealthDataId"
+        clientId:
+          $ref: "#/components/schemas/ClientId"
+        weight:
+          type: number
+          format: float
+          description: Вес в кг
+        energyLevel:
+          type: integer
+          description: Уровень энергии (1–10)
+        sleepQuality:
+          type: integer
+          description: Качество сна (1–10)
+        mood:
+          type: integer
+          description: Настроение (1–10)
+        recordedAt:
+          type: string
+          format: date-time
+
+    RecommendationResponse:
+      description: Полная рекомендация по тренировке
+      type: object
+      required:
+        - clientId
+        - readinessIndex
+        - recommendation
+        - calculatedAt
+      properties:
+        clientId:
+          $ref: "#/components/schemas/ClientId"
+        readinessIndex:
+          type: number
+          format: float
+          minimum: 0
+          maximum: 10
+          example: 7.4
+        recommendation:
+          allOf:
+            - $ref: "#/components/schemas/RecommendationSummary"
+            - description: Вложенный объект с детальной рекомендацией
+        calculatedAt:
+          type: string
+          format: date-time
+
+    ClientListItem:
+      description: Краткая карточка клиента для списка
+      type: object
+      required:
+        - id
+        - firstName
+        - lastName
+        - readinessIndex
+        - lastRecommendation
+        - lastRecordedAt
+      properties:
+        id:
+          $ref: "#/components/schemas/ClientId"
+        firstName:
+          type: string
+          example: "Иван"
+        lastName:
+          type: string
+          example: "Иванов"
+        readinessIndex:
+          type: number
+          format: float
+          minimum: 0
+          maximum: 10
+          example: 8.2
+        lastRecommendation:
+          allOf:
+            - $ref: "#/components/schemas/RecommendationSummary"
+            - description: Последняя рекомендация клиента
+        lastRecordedAt:
+          type: string
+          format: date-time
+
+    ClientListResponse:
+      description: Постраничный список клиентов тренера
+      type: object
+      required:
+        - content
+        - totalElements
+        - totalPages
+        - page
+        - size
+      properties:
+        content:
+          type: array
+          description: Массив клиентов на текущей странице
+          items:
+            $ref: "#/components/schemas/ClientListItem"
+        totalElements:
+          type: integer
+          example: 42
+        totalPages:
+          type: integer
+          example: 3
+        page:
+          type: integer
+          example: 0
+        size:
+          type: integer
+          example: 20
+
+    ClientDetailResponse:
+      description: Детальная карточка клиента
+      type: object
+      required:
+        - id
+        - firstName
+        - lastName
+        - email
+        - role
+        - readinessIndex
+        - lastRecommendation
+        - healthHistory
+      properties:
+        id:
+          $ref: "#/components/schemas/ClientId"
+        firstName:
+          type: string
+          example: "Иван"
+        lastName:
+          type: string
+          example: "Иванов"
+        email:
+          type: string
+          format: email
+          example: "ivan@example.com"
+        role:
+          $ref: "#/components/schemas/UserRole"
+        readinessIndex:
+          type: number
+          format: float
+          minimum: 0
+          maximum: 10
+          example: 8.2
+        lastRecommendation:
+          allOf:
+            - $ref: "#/components/schemas/RecommendationSummary"
+            - description: Последняя рекомендация
+        healthHistory:
+          type: array
+          description: История метрик здоровья (массив записей)
+          items:
+            $ref: "#/components/schemas/HealthHistoryRecord"
+
+    ErrorResponse:
+      description: Стандартная структура ошибки
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: string
+          example: "CLIENT_NOT_FOUND"
+        message:
+          type: string
+          example: "Клиент не найден"
+        details:
+          type: object
+          additionalProperties: true
+
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT-токен, получаемый при аутентификации пользователя.
