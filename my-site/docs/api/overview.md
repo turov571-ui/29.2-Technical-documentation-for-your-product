@@ -19,15 +19,15 @@ FitAdapt предоставляет REST API для мобильного кли�
 
 | Группа | Теги OpenAPI | Описание |
 |---|---|---|
-| Метрики здоровья | `Health` | GET /health-profile, POST /health-data |
-| Рекомендации | `Recommendation` | GET /recommendation/{clientId} |
-| Методы тренера | `Trainer` | GET /trainer/clients, GET /trainer/clients/{id} |
+| Метрики здоровья | `Health` | `GET /health-profile`, `POST /health-data` |
+| Рекомендации | `Recommendation` | `GET /recommendation/\{clientId\}` |
+| Методы тренера | `Trainer` | `GET /trainer/clients`, `GET /trainer/clients/\{id\}` |
 
 ## Общие правила
 
 - Все защищённые методы требуют `Authorization: Bearer <token>`.
-- POST /health-data поддерживает `X-Idempotency-Key` для защиты от дублей.
-- Ошибки возвращаются в едином формате: `{ "code": "...", "message": "..." }`.
+- `POST /health-data` поддерживает `X-Idempotency-Key` для защиты от дублей.
+- Ошибки возвращаются в едином формате: `\{ "code": "...", "message": "..." \}`.
 - Пагинация: `page`, `size`, `sort` в query-параметрах.
 
 ## Интерактивная спецификация
