@@ -11,12 +11,12 @@ title: Введение
 
 | Раздел | Содержимое |
 |---|---|
-| [Обзор проекта](https://turov571-ui.github.io/29.2-Technical-documentation-for-your-product/docs/overview/vision) | Vision, стейкхолдеры, Use Cases |
-| [Архитектура](https://turov571-ui.github.io/29.2-Technical-documentation-for-your-product/docs/architecture/context) | Контекстная диаграмма, компоненты, потоки данных |
-| [Доменная модель](https://turov571-ui.github.io/29.2-Technical-documentation-for-your-product/docs/domain/erd) | ERD: концептуальная / логическая / физическая |
-| [API](https://turov571-ui.github.io/29.2-Technical-documentation-for-your-product/docs/api/overview) | Описание API + интерактивный Redoc |
-| [Wireframes](https://turov571-ui.github.io/29.2-Technical-documentation-for-your-product/docs/wireframes/screens) | Макеты экранов, роуты, маппинг на endpoints |
-| [Алгоритмы](https://turov571-ui.github.io/29.2-Technical-documentation-for-your-product/docs/algorithms/readiness-index) | Readiness Index, DMN-правила |
-| [Интеграции](https://turov571-ui.github.io/29.2-Technical-documentation-for-your-product/docs/integrations/onesignal) | OneSignal, Kafka, n8n |
-| [Платформизация](https://turov571-ui.github.io/29.2-Technical-documentation-for-your-product/docs/platformization/strategy) | B2B2C-стратегия, монетизация |
-| [Эксплуатация](https://turov571-ui.github.io/29.2-Technical-documentation-for-your-product/docs/operations/non-functional) | NFR, мониторинг |
+| [Обзор проекта](/docs/overview/vision) | Vision, стейкхолдеры, Use Cases |
+| [Архитектура](/docs/architecture/context) | Контекстная диаграмма, компоненты, потоки данных |
+| [Доменная модель](/docs/domain/erd) | ERD: концептуальная / логическая / физическая |
+| [API](/docs/api/overview) | Описание API + интерактивный Redoc |
+| [Wireframes](/docs/wireframes/screens) | Макеты экранов, роуты, маппинг на endpoints |
+| [Алгоритмы](/docs/algorithms/readiness-index) | Readiness Index, DMN-правила |
+| [Интеграции](/docs/integrations/onesignal) | OneSignal, Kafka, n8n |
+| [Платформизация](/docs/platformization/strategy) | B2B2C-стратегия, монетизация |
+| [Эксплуатация](/docs/operations/non-functional) | NFR, мониторинг |
