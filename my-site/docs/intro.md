@@ -3,43 +3,20 @@ sidebar_position: 1
 title: Введение
 ---
 
-# FitAdapt — Платформа адаптивных тренировок
+# Введение
 
-**FitAdapt** — это B2B2C-платформа, которая персонализирует тренировочные рекомендации на основе текущего состояния здоровья клиента.
-
-## Что делает система
-
-Клиент ежедневно вносит четыре показателя: вес, уровень энергии, качество сна и настроение. На основе этих данных алгоритм рассчитывает **Readiness Index** (индекс готовности к нагрузке) и через DMN-правила подбирает тип тренировки, интенсивность и длительность.
-
-Тренер видит сводный дашборд по всем своим клиентам и получает уведомление, когда индекс кого-то из них падает ниже порогового значения.
-
-## Ключевые роли
-
-| Роль | Что делает |
-|---|---|
-| **CLIENT** | Вводит метрики здоровья, получает рекомендацию |
-| **TRAINER** | Смотрит список клиентов, открывает карточку клиента |
-| **ADMIN** | Управляет пользователями и настройками платформы |
-
-## Технологический стек
-
-- **Backend:** Java / Spring Boot, Kafka, PostgreSQL
-- **Автоматизация:** n8n (расчёт индекса, оркестрация воркфлоу)
-- **Уведомления:** OneSignal (push через FCM/APNs)
-- **API:** REST, OpenAPI 3.0.3
-- **Документация:** Docusaurus (docs as code)
+Это проект технической документации продукта FitAdapt, оформленный по подходу docs as code и опубликованный с помощью Docusaurus.
 
 ## Структура документации
 
 | Раздел | Содержимое |
 |---|---|
-| [Обзор проекта](./01-overview/vision) | Vision, стейкхолдеры, Use Cases |
-| [Архитектура](./02-architecture/context) | Контекстная диаграмма, компоненты, потоки данных |
-| [Доменная модель](./03-domain/erd) | ERD: концептуальная / логическая / физическая |
-| [API](./04-api/overview) | Описание API + интерактивный Redoc |
-| [Wireframes](./05-wireframes/screens) | Макеты экранов, роуты, маппинг на endpoints |
-| [Алгоритмы](./06-algorithms/readiness-index) | Readiness Index, DMN-правила |
-| [Интеграции](./07-integrations/onesignal) | OneSignal, Kafka, n8n |
-| [Платформизация](./08-platformization/strategy) | B2B2C-стратегия, монетизация |
-| [Эксплуатация](./09-operations/non-functional) | NFR, мониторинг |
-| [Style Guide](./09-style-guide/overview) | Правила оформления документации |
+| [Обзор проекта](https://turov571-ui.github.io/29.2-Technical-documentation-for-your-product/docs/overview/vision) | Vision, стейкхолдеры, Use Cases |
+| [Архитектура](https://turov571-ui.github.io/29.2-Technical-documentation-for-your-product/docs/architecture/context) | Контекстная диаграмма, компоненты, потоки данных |
+| [Доменная модель](https://turov571-ui.github.io/29.2-Technical-documentation-for-your-product/docs/domain/erd) | ERD: концептуальная / логическая / физическая |
+| [API](https://turov571-ui.github.io/29.2-Technical-documentation-for-your-product/docs/api/overview) | Описание API + интерактивный Redoc |
+| [Wireframes](https://turov571-ui.github.io/29.2-Technical-documentation-for-your-product/docs/wireframes/screens) | Макеты экранов, роуты, маппинг на endpoints |
+| [Алгоритмы](https://turov571-ui.github.io/29.2-Technical-documentation-for-your-product/docs/algorithms/readiness-index) | Readiness Index, DMN-правила |
+| [Интеграции](https://turov571-ui.github.io/29.2-Technical-documentation-for-your-product/docs/integrations/onesignal) | OneSignal, Kafka, n8n |
+| [Платформизация](https://turov571-ui.github.io/29.2-Technical-documentation-for-your-product/docs/platformization/strategy) | B2B2C-стратегия, монетизация |
+| [Эксплуатация](https://turov571-ui.github.io/29.2-Technical-documentation-for-your-product/docs/operations/non-functional) | NFR, мониторинг |
