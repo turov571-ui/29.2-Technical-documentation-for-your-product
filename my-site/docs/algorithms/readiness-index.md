@@ -40,6 +40,3 @@ ReadinessIndex =
 
 Расчёт происходит в **n8n workflow** после получения события `health.data.saved` из Kafka. Результат записывается в таблицу `recommendations` через внутренний вызов `POST /recommendations` (backend API).
 
-:::info Шаблон
-Будут добавлены: нормализация WeightScore, граничные условия, примеры расчёта с реальными значениями.
-:::
