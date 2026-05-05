@@ -42,6 +42,4 @@ Backend API
                                        POST OneSignal API
 ```
 
-:::info Шаблон
-Будут добавлены: payload-схемы событий, правила версионирования сообщений, retry / DLQ, требования к observability.
-:::
+
