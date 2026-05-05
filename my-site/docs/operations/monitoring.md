@@ -34,6 +34,4 @@ title: Мониторинг и алерты
 | Логирование | ELK (Elasticsearch, Logstash, Kibana) |
 | Алерты | Alertmanager / PagerDuty |
 
-:::info Шаблон
-Будут добавлены: конкретные дашборды, пороговые значения SLO, runbook для инцидентов, схема on-call ротации.
-:::
+
