@@ -47,6 +47,4 @@ FitAdapt состоит из нескольких взаимодействующ
 
 **За пределами:** OneSignal, FCM/APNs, OAuth-провайдер.
 
-:::note draw.io
-Полная C4 Context диаграмма будет добавлена в `static/diagrams/context.drawio`.
-:::
+
