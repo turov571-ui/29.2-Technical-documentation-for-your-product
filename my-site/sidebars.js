@@ -85,6 +85,13 @@ const sidebars = {
         'operations/monitoring',
       ],
     },
+    {
+      type: 'category',
+      label: 'Водородный двигатель',
+      items: [
+        'hydrogen-engine/roadmap',
+      ],
+    },
   ],
 };
 
